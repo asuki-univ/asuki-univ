@@ -89,11 +89,10 @@ public abstract class AbstractBinaryTreeTest {
     
     @Test
     public void testInsertAndRemoveRandomSmall() {
-        //for (int i = 0; i < 1000; ++i) {
-            int i = 44;
+        for (int i = 0; i < 1000; ++i) {
             Random random = new Random(i);
             f(20, random);
-        //}
+        }
     }
 
     private ArrayList<Integer> createReadableRandomArray(int N, Random random) {
