@@ -30,7 +30,7 @@ public abstract class AbstractBinaryTreeTest {
         
         Assert.assertTrue(tree.check());
         Assert.assertEquals(10, tree.size());
-                
+
         for (int i = 0; i < 10; ++i)
             Assert.assertTrue(tree.contains(i));
         
@@ -62,10 +62,13 @@ public abstract class AbstractBinaryTreeTest {
             tree.clear();
             for (int i = 0; i < vs.length; ++i)
                 tree.insert(vs[i]);
-            
+
+            Assert.assertEquals(vs.length, tree.size());
+
             for (int i = 0; i < vs.length; ++i)
                 tree.remove(vs[i]);
             
+            Assert.assertEquals(0, tree.size());
             Assert.assertTrue(tree.check());
         } while (nextPermutation(vs));        
     }
@@ -79,9 +82,12 @@ public abstract class AbstractBinaryTreeTest {
             for (int i = 0; i < vs.length; ++i)
                 tree.insert(vs[i]);
             
+            Assert.assertEquals(vs.length, tree.size());
+            
             for (int i = vs.length - 1; i >= 0; --i)
                 tree.remove(vs[i]);
             
+            Assert.assertEquals(0, tree.size());
             Assert.assertTrue(tree.check());
         } while (nextPermutation(vs));        
     }
