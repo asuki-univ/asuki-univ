@@ -1,9 +1,9 @@
 package adt.datastruct;
 
-abstract class TreeNode<T> {
-    protected int value;
-    protected T left;
-    protected T right;
+public abstract class TreeNode<T> {
+    private int value;
+    private T left;
+    private T right;
     
     protected TreeNode(int value) {
         this.value = value;
@@ -11,6 +11,10 @@ abstract class TreeNode<T> {
     
     public int value() {
         return value;
+    }
+    
+    public void setValue(int v) {
+        this.value = v;
     }
     
     public T left() {
@@ -28,14 +32,7 @@ abstract class TreeNode<T> {
     public void setRight(T right) {
         this.right = right;
     }
+    
+    public abstract String toNodeString();  
 }
 
-public abstract class AbstractBalancedTree {
-    public abstract int[] values();
-    
-    public abstract void insert(int v);
-    public abstract void remove(int v);
-    public abstract boolean contains(int v);
-    
-    public abstract boolean check();
-}
