@@ -34,11 +34,8 @@ public abstract class AbstractBinaryTreeTest {
         for (int i = 0; i < 10; ++i)
             Assert.assertTrue(tree.contains(i));
         
-        // tree.printTree();
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 10; ++i)
             tree.remove(i);
-            // tree.printTree();
-        }
         
         Assert.assertTrue(tree.check());
         Assert.assertEquals(0, tree.size());        
@@ -125,14 +122,10 @@ public abstract class AbstractBinaryTreeTest {
 
         Collections.shuffle(vs, random);
         
-        for (int i = 0; i < N; ++i) {
-            System.out.println(" ----- REMOVING " + vs.get(i));
+        for (int i = 0; i < N; ++i)
             tree.remove(vs.get(i));
-            tree.printTree();
-        }
         
-        Assert.assertEquals(0, tree.size());
-        
+        Assert.assertEquals(0, tree.size());        
     }
     
     @Test
