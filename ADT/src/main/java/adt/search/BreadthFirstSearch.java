@@ -24,7 +24,7 @@ public class BreadthFirstSearch {
             if (visited.contains(v)) { continue; }
             visited.add(v);
             
-            List<Edge> edges = g.getEdges(v);
+            List<Edge> edges = g.edges(v);
             for (Edge e : edges) {
                 if (visited.contains(e.e)) { continue; }
                 q.add(e.e);

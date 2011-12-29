@@ -23,7 +23,7 @@ public class DepthFirstSearchRecursion implements DepthFirstSearch {
         if (visited.contains(v)) { return; }
         visited.add(v);
         
-        List<Edge> edges = g.getEdges(v);
+        List<Edge> edges = g.edges(v);
         for (int i = 0; i < edges.size(); ++i) {
             Edge edge = edges.get(i);
             iter(g, edge.e, visited);

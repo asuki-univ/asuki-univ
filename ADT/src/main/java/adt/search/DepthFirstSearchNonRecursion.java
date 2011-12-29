@@ -25,7 +25,7 @@ public class DepthFirstSearchNonRecursion implements DepthFirstSearch {
             if (visited.contains(v)) { continue; }
             visited.add(v);
             
-            List<Edge> edges = g.getEdges(v);
+            List<Edge> edges = g.edges(v);
             for (int i = edges.size() - 1; i >= 0; --i) {
                 Edge edge = edges.get(i);
                 q.add(edge.e);

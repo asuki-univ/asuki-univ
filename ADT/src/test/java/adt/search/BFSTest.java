@@ -25,7 +25,7 @@ public abstract class BFSTest {
     public void testFindSingle() {
         Graph g = new Graph(1);
         
-        Vertex[] iters = toArray(bfs.iter(g, g.getVertex(0)));
+        Vertex[] iters = toArray(bfs.iter(g, g.vertex(0)));
 
         for (int i = 0; i < g.size(); ++i) {
             Assert.assertEquals(g.vertex(i), iters[i]);
