@@ -73,9 +73,6 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
     
     @Override
     public void remove(int v) {
-        if (root == null)
-            return;
-        
         remove(null, root, v);
     }
     
