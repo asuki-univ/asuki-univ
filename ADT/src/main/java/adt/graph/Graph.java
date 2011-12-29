@@ -26,20 +26,12 @@ public class Graph {
         return this.size;
     }
 
-    public Vertex getVertex(int id) {
-        return vs[id];
-    }
-    
     public Vertex vertex(int id) {
         return vs[id];
     }
     
     public Vertex[] vertices() {
         return vs;
-    }
-    
-    public List<Edge> getEdges(Vertex v) {
-        return es[v.id];
     }
     
     public List<Edge> edges(Vertex v) {

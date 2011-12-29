@@ -30,7 +30,7 @@ public class BellmanFord implements ShortestPathFinder {
         do {
             changed = false;
             for (Vertex v : g.vertices()) {
-                for (Edge e : g.getEdges(v)) {
+                for (Edge e : g.edges(v)) {
                     int oldCost = p.get(e.e);
                     int newCost = p.get(e.s) + e.weight();
                     if (newCost < oldCost) {

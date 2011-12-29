@@ -19,7 +19,7 @@ public class Floyd implements ShortestPathFinder {
         }
 
         for (Vertex v : vs) {
-            for (Edge e : g.getEdges(v)) {
+            for (Edge e : g.edges(v)) {
                 cs[e.s.id][e.e.id] = e.weight();
             }
         }

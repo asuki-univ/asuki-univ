@@ -25,7 +25,7 @@ public class Dijkstra implements ShortestPathFinder {
             
             
             int cost = e.weight();
-            for (Edge edge : g.getEdges(e.e)) {
+            for (Edge edge : g.edges(e.e)) {
                 if (p.containsKey(edge.e)) { continue; }
                 q.add(new Edge(edge.s, edge.e, cost + edge.weight()));
             }

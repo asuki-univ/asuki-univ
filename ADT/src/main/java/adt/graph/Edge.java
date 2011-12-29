@@ -33,7 +33,7 @@ public class Edge implements Comparable<Edge> {
         Edge rhs = o;
         
         if (lhs.w != rhs.w) { return lhs.w < rhs.w ? -1 : 1; }
-        
+
         return 0;
     }
     
