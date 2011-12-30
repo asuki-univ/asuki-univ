@@ -1,38 +1,18 @@
 package adt.datastruct;
 
+// ノード。後に拡張ができるようにジェネリクスを使っておく。
 public abstract class TreeNode<T> {
-    private int value;
-    private T left;
-    private T right;
+    public int value;
+    public T left;
+    public T right;
     
-    protected TreeNode(int value) {
+    public TreeNode(int value) {
         this.value = value;
+        this.left = null;
+        this.right = null;
     }
     
-    public int value() {
-        return value;
-    }
-    
-    public void setValue(int v) {
-        this.value = v;
-    }
-    
-    public T left() {
-        return left;
-    }
-    
-    public void setLeft(T left) {
-        this.left = left;
-    }
-    
-    public T right() {
-        return right;
-    }
-    
-    public void setRight(T right) {
-        this.right = right;
-    }
-    
+    // デバグ用
     public abstract String toNodeString();  
 }
 

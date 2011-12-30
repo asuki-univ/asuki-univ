@@ -1,4 +1,7 @@
-package adt.datastruct;
+package adt.datastruct.impl;
+
+import adt.datastruct.AbstractHashTable;
+import adt.datastruct.Entry;
 
 
 public class ClosedHashTable<K, V> extends AbstractHashTable<K, V> {

@@ -45,6 +45,23 @@ public class MaxFlowTest {
         Assert.assertEquals(1, flow[0][2]);
     }
     
+    @Test
+    public void testJunction() {
+        Graph g = new Graph(4);
+        g.addEdge(new Edge(g.vertex(0), g.vertex(1), 1));
+        g.addEdge(new Edge(g.vertex(0), g.vertex(2), 1));
+        g.addEdge(new Edge(g.vertex(1), g.vertex(2), Integer.MAX_VALUE));
+        g.addEdge(new Edge(g.vertex(1), g.vertex(3), 1));
+        g.addEdge(new Edge(g.vertex(2), g.vertex(3), 1));
+        
+        int[][] flow = new MaxFlow().findMaxFlow(g, g.vertex(0), g.vertex(3));
+        
+        Assert.assertEquals(1, flow[0][1]);
+        Assert.assertEquals(1, flow[0][2]);
+        Assert.assertEquals(1, flow[1][3]);
+        Assert.assertEquals(1, flow[2][3]);
+    }
+    
     private void showFlow(int[][] flow) {
         for (int[] xs : flow) {
             for (int x : xs) {

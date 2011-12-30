@@ -1,4 +1,7 @@
-package adt.datastruct;
+package adt.datastruct.impl;
+
+import adt.datastruct.AbstractBinaryTree;
+import adt.datastruct.TreeNode;
 
 class UBTreeNode extends TreeNode<UBTreeNode> {
     public UBTreeNode(int v) {
@@ -7,7 +10,7 @@ class UBTreeNode extends TreeNode<UBTreeNode> {
     
     @Override
     public String toNodeString() {
-        return String.valueOf(value());
+        return String.valueOf(value);
     }
 }
 
@@ -23,19 +26,19 @@ public class UnbalancedBinaryTree extends AbstractBinaryTree<UBTreeNode> {
         UBTreeNode node = this.root;
         
         while (true) {
-            if (v <= node.value()) {
-                if (node.left() != null)
-                    node = node.left();
+            if (v <= node.value) {
+                if (node.left != null)
+                    node = node.left;
                 else {
-                    node.setLeft(new UBTreeNode(v));
+                    node.left = new UBTreeNode(v);
                     ++size;
                     return;
                 }
             } else {
-                if (node.right() != null)
-                    node = node.right();
+                if (node.right != null)
+                    node = node.right;
                 else {
-                    node.setRight(new UBTreeNode(v));
+                    node.right = new UBTreeNode(v);
                     ++size;
                     return;
                 }
@@ -55,27 +58,27 @@ public class UnbalancedBinaryTree extends AbstractBinaryTree<UBTreeNode> {
         if (node == null)
             return;
         
-        if (v < node.value()) {
-            remove(node, node.left(), v);
+        if (v < node.value) {
+            remove(node, node.left, v);
             return;
         }
-        if (node.value() < v) {
-            remove(node, node.right(), v);
+        if (node.value < v) {
+            remove(node, node.right, v);
             return;
         }
         
-        assert v == node.value();
+        assert v == node.value;
         --size;
         
-        UBTreeNode maxLeft = findMaxAndRemove(node, node.left());
+        UBTreeNode maxLeft = findMaxAndRemove(node, node.left);
         if (maxLeft != null) {
-            node.setValue(maxLeft.value());
+            node.value = maxLeft.value;
             return;
         }
         
-        UBTreeNode minRight = findMinAndRemove(node, node.right());
+        UBTreeNode minRight = findMinAndRemove(node, node.right);
         if (minRight != null) {
-            node.setValue(minRight.value());
+            node.value = minRight.value;
             return;
         }
         
@@ -87,13 +90,13 @@ public class UnbalancedBinaryTree extends AbstractBinaryTree<UBTreeNode> {
             return null;
         
         while (true) {
-            if (node.right() == null)
+            if (node.right == null)
                 break;
             parent = node;
-            node = node.right();
+            node = node.right;
         }
         
-        replace(parent, node, node.left());
+        replace(parent, node, node.left);
         return node;
     }
     
@@ -102,13 +105,13 @@ public class UnbalancedBinaryTree extends AbstractBinaryTree<UBTreeNode> {
             return null;
         
         while (true) {
-            if (node.left() == null)
+            if (node.left == null)
                 break;
             parent = node;
-            node = node.left();
+            node = node.left;
         }
         
-        replace(parent, node, node.right());
+        replace(parent, node, node.right);
         return node;
     }
 
@@ -121,9 +124,9 @@ public class UnbalancedBinaryTree extends AbstractBinaryTree<UBTreeNode> {
         if (node == null)
             return true;
         
-        if (node.left() != null && node.value() <= node.left().value())
+        if (node.left != null && node.value <= node.left.value)
             return false;
-        if (node.right() != null && node.right().value() < node.value())
+        if (node.right != null && node.right.value < node.value)
             return false;
         
         return true;

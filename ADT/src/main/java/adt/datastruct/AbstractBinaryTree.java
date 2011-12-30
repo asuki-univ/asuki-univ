@@ -35,9 +35,9 @@ public abstract class AbstractBinaryTree<T extends TreeNode<T>> {
         if (node == null)
             return;
         
-        values(node.left(), vs);
-        vs.add(node.value());
-        values(node.right(), vs);
+        values(node.left, vs);
+        vs.add(node.value);
+        values(node.right, vs);
     }
     
     public boolean contains(int v) {
@@ -48,13 +48,13 @@ public abstract class AbstractBinaryTree<T extends TreeNode<T>> {
         if (node == null)
             return false;
         
-        if (node.value() == v)
+        if (node.value == v)
             return true;
         
-        if (v < node.value())
-            return contains(node.left(), v);
+        if (v < node.value)
+            return contains(node.left, v);
         else
-            return contains(node.right(), v);
+            return contains(node.right, v);
     }
     
     protected void replace(T parent, T oldNode, T newNode) {
@@ -63,10 +63,10 @@ public abstract class AbstractBinaryTree<T extends TreeNode<T>> {
             return;
         }
         
-        if (parent.left() == oldNode)
-            parent.setLeft(newNode);
+        if (parent.left == oldNode)
+            parent.left = newNode;
         else
-            parent.setRight(newNode);
+            parent.right = newNode;
     }
     
     protected void printTree() {
@@ -81,8 +81,8 @@ public abstract class AbstractBinaryTree<T extends TreeNode<T>> {
         }
         
         System.out.println(node.toNodeString());
-        printTree(indent + 1, node.left());
-        printTree(indent + 1, node.right());
+        printTree(indent + 1, node.left);
+        printTree(indent + 1, node.right);
     }
     
     private void printIndent(int indent) {

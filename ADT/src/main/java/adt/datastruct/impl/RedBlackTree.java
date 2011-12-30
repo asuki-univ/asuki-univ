@@ -1,4 +1,7 @@
-package adt.datastruct;
+package adt.datastruct.impl;
+
+import adt.datastruct.AbstractBinaryTree;
+import adt.datastruct.TreeNode;
 
 class RedBlackTreeNode extends TreeNode<RedBlackTreeNode> {
     private RedBlackTreeNode parent;
@@ -10,8 +13,8 @@ class RedBlackTreeNode extends TreeNode<RedBlackTreeNode> {
         this.parent = parent;
         this.red = true;
         this.leaf = false;
-        this.setLeft(new RedBlackTreeNode(this));
-        this.setRight(new RedBlackTreeNode(this));
+        this.left = new RedBlackTreeNode(this);
+        this.right = new RedBlackTreeNode(this);
     }
     
     // Create Leaf
@@ -40,17 +43,17 @@ class RedBlackTreeNode extends TreeNode<RedBlackTreeNode> {
         RedBlackTreeNode grandParent = grandParent();
         if (grandParent == null)
             return null;
-        if (grandParent.left() == parent())
-            return grandParent.right();
+        if (grandParent.left == parent())
+            return grandParent.right;
         else
-            return grandParent.left();
+            return grandParent.left;
     }
     
     public RedBlackTreeNode sibling() {
-        if (this == parent().left())
-            return parent.right();
+        if (this == parent().left)
+            return parent.right;
         else
-            return parent.left();
+            return parent.left;
     }
     
     public boolean isRed() {
@@ -79,7 +82,7 @@ class RedBlackTreeNode extends TreeNode<RedBlackTreeNode> {
 
     @Override
     public String toNodeString() {
-        return String.valueOf(value()) + (isRed() ? " R" : " B");
+        return String.valueOf(value) + (isRed() ? " R" : " B");
     }
 }
 
@@ -109,21 +112,21 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
         // 通常通りの二分探索を行い、要素を挿入する。
         RedBlackTreeNode node = root;
         while (true) {
-            if (v <= node.value()) { // 左へ挿入
-                if (node.left().isLeaf()) {
-                    node.setLeft(new RedBlackTreeNode(node, v));
-                    node = node.left();
+            if (v <= node.value) { // 左へ挿入
+                if (node.left.isLeaf()) {
+                    node.left = new RedBlackTreeNode(node, v);
+                    node = node.left;
                     break;
                 } else {
-                    node = node.left();
+                    node = node.left;
                 }
             } else { // 右へ挿入
-                if (node.right().isLeaf()) {
-                    node.setRight(new RedBlackTreeNode(node, v));
-                    node = node.right();
+                if (node.right.isLeaf()) {
+                    node.right = new RedBlackTreeNode(node, v);
+                    node = node.right;
                     break;
                 } else {
-                    node = node.right();
+                    node = node.right;
                 }
             }
         }
@@ -159,21 +162,21 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
 
         // 以下、伯父が黒の場合
         // 祖父から見て、左の右　もしくは　右の左の場合、左回転もしくは右回転を行っておく。
-        if (node == node.parent().right() && node.parent() == grand.left()) {
+        if (node == node.parent().right && node.parent() == grand.left) {
             rotateLeft(node.parent());
-            node = node.left();
-        } else if (node == node.parent().left() && node.parent() == grand.right()) {
+            node = node.left;
+        } else if (node == node.parent().left && node.parent() == grand.right) {
             rotateRight(node.parent());
-            node = node.right();
+            node = node.right;
         }
 
         // 祖父を右回転もしくは左回転し、色の付け替えを行う。
         grand = node.grandParent();
         node.parent().setBlack();
         grand.setRed();
-        if (node == node.parent().left() && node.parent() == grand.left()) {
+        if (node == node.parent().left && node.parent() == grand.left) {
             rotateRight(grand);
-        } else if (node == node.parent().right() && node.parent() == grand.right()) {
+        } else if (node == node.parent().right && node.parent() == grand.right) {
             rotateLeft(grand);
         }
     }
@@ -187,19 +190,19 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
         if (node == null)
             return;
         
-        if (v < node.value())
-            remove(node.left(), v);
-        else if (node.value() < v)
-            remove(node.right(), v);
+        if (v < node.value)
+            remove(node.left, v);
+        else if (node.value < v)
+            remove(node.right, v);
         else {
-            assert node.value() == v;
-            if (!node.left().isLeaf()) {
-                RedBlackTreeNode maxNode = findMaximumNode(node.left());
-                node.setValue(maxNode.value());
+            assert node.value == v;
+            if (!node.left.isLeaf()) {
+                RedBlackTreeNode maxNode = findMaximumNode(node.left);
+                node.value = maxNode.value;
                 adjustColorAndRemove(maxNode);
-            } else if (!node.right().isLeaf()) {
-                RedBlackTreeNode minNode = findMinimumNode(node.right());
-                node.setValue(minNode.value());
+            } else if (!node.right.isLeaf()) {
+                RedBlackTreeNode minNode = findMinimumNode(node.right);
+                node.value = minNode.value;
                 adjustColorAndRemove(minNode);
             } else {
                 adjustColorAndRemove(node);
@@ -209,9 +212,9 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
     
     private void adjustColorAndRemove(RedBlackTreeNode node) {
         // node は多くとも１つの子供のみを持つ。
-        assert (node.left().isLeaf() || node.right().isLeaf());
+        assert (node.left.isLeaf() || node.right.isLeaf());
         
-        RedBlackTreeNode child = node.left().isLeaf() ? node.right() : node.left();
+        RedBlackTreeNode child = node.left.isLeaf() ? node.right : node.left;
         RedBlackTreeNode parent = node.parent();
         --size;
         replaceWithParent(parent, node, child);
@@ -241,7 +244,7 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
             node.parent().setRed();
             sibling.setBlack();
             node.setBlack();
-            if (node == node.parent().left())
+            if (node == node.parent().left)
                 rotateLeft(node.parent());
             else
                 rotateRight(node.parent());
@@ -250,29 +253,29 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
         sibling = node.sibling();
         assert sibling != null;
         if (node.parent().isBlack() && sibling.isBlack() &&
-                (sibling.left() == null || sibling.left().isBlack()) &&
-                (sibling.right() == null || sibling.right().isBlack())) {
+                (sibling.left == null || sibling.left.isBlack()) &&
+                (sibling.right == null || sibling.right.isBlack())) {
             sibling.setRed();
             adjustColor(node.parent());
             return;
         }
 
         if (node.parent().isRed() && sibling.isBlack() &&
-            (sibling.left() == null || sibling.left().isBlack()) &&
-            (sibling.right() == null || sibling.right().isBlack())) {
+            (sibling.left == null || sibling.left.isBlack()) &&
+            (sibling.right == null || sibling.right.isBlack())) {
                 sibling.setRed();
                 node.parent().setBlack();
                 return;
         }
 
         if (sibling.isBlack()) {
-            if (node == node.parent().left() && sibling.right().isBlack() && sibling.left().isRed()) { /* this last test is trivial too due to cases 2-4. */
+            if (node == node.parent().left && sibling.right.isBlack() && sibling.left.isRed()) { /* this last test is trivial too due to cases 2-4. */
                 sibling.setRed();
-                sibling.left().setBlack();
+                sibling.left.setBlack();
                 rotateRight(sibling);
-            } else if (node == node.parent().right() && sibling.left().isBlack() && sibling.right().isRed()) {
+            } else if (node == node.parent().right && sibling.left.isBlack() && sibling.right.isRed()) {
                 sibling.setRed();
-                sibling.right().setBlack();
+                sibling.right.setBlack();
                 rotateLeft(sibling);
             }
             
@@ -282,25 +285,25 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
         sibling.setRed(node.parent().isRed());
         node.parent().setBlack();
 
-        if (node == node.parent().left()) {
-            sibling.right().setBlack();
+        if (node == node.parent().left) {
+            sibling.right.setBlack();
             rotateLeft(node.parent());
         } else {
-            sibling.left().setBlack();
+            sibling.left.setBlack();
             rotateRight(node.parent());
         }
     }
     
     private RedBlackTreeNode findMaximumNode(RedBlackTreeNode node) {
-        if (!node.right().isLeaf())
-            return findMaximumNode(node.right());
+        if (!node.right.isLeaf())
+            return findMaximumNode(node.right);
         
         return node;
     }
     
     private RedBlackTreeNode findMinimumNode(RedBlackTreeNode node) {
-        if (!node.left().isLeaf())
-            return findMinimumNode(node.left());
+        if (!node.left.isLeaf())
+            return findMinimumNode(node.left);
         return node;
     }
 
@@ -320,8 +323,8 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
         if (node == null)
             return 1;
         
-        int leftBlack = checkNumBlack(node, node.left());
-        int rightBlack = checkNumBlack(node, node.right());
+        int leftBlack = checkNumBlack(node, node.left);
+        int rightBlack = checkNumBlack(node, node.right);
         
         if (leftBlack < 0 || rightBlack < 0)
             return -1;
@@ -344,31 +347,31 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
 
     private void rotateLeft(RedBlackTreeNode B) {
         RedBlackTreeNode P = B.parent();
-        RedBlackTreeNode D = B.right();
+        RedBlackTreeNode D = B.right;
         
         replace(P, B, D);
         D.setParent(P);
         
-        B.setRight(D.left());
-        if (D.left() != null)
-            D.left().setParent(B);
+        B.right = D.left;
+        if (D.left != null)
+            D.left.setParent(B);
         
-        D.setLeft(B);
+        D.left = B;
         B.setParent(D);
     }
     
     private void rotateRight(RedBlackTreeNode D) {
         RedBlackTreeNode P = D.parent();
-        RedBlackTreeNode B = D.left();
+        RedBlackTreeNode B = D.left;
         
         replace(P, D, B);
         B.setParent(D.parent());
         
-        D.setLeft(B.right());
-        if (B.right() != null)
-            B.right().setParent(D);
+        D.left = B.right;
+        if (B.right != null)
+            B.right.setParent(D);
         
-        B.setRight(D);
+        B.right = D;
         D.setParent(B);
     }
 }

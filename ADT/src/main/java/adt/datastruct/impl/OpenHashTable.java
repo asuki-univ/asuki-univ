@@ -1,7 +1,10 @@
-package adt.datastruct;
+package adt.datastruct.impl;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import adt.datastruct.AbstractHashTable;
+import adt.datastruct.Entry;
 
 public class OpenHashTable<K, V> extends AbstractHashTable<K, V> {
     private int size;

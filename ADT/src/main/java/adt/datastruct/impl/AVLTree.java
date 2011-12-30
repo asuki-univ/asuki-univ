@@ -1,4 +1,7 @@
-package adt.datastruct;
+package adt.datastruct.impl;
+
+import adt.datastruct.AbstractBinaryTree;
+import adt.datastruct.TreeNode;
 
 
 class AVLTreeNode extends TreeNode<AVLTreeNode> {
@@ -24,7 +27,7 @@ class AVLTreeNode extends TreeNode<AVLTreeNode> {
     
     @Override
     public String toNodeString() {
-        return String.format("%s (%d)", String.valueOf(value()), Integer.valueOf(balance()));
+        return String.format("%s (%d)", String.valueOf(value), Integer.valueOf(balance()));
     }
 }
 
@@ -36,37 +39,43 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
     public void insert(int v) {
         ++size;
         
+        // root がなければ、root に追加すればよい。
         if (root == null) {
             root = new AVLTreeNode(v);            
             return;
         }
         
+        // root があれば、root の下に追加を行う。
         insert(null, this.root, v);
     }
 
-    // v を node に挿入する。高さの変化を返す。
+    // v を node に挿入して高さの変化を返す。
     private int insert(AVLTreeNode parent, AVLTreeNode node, int v) {
         assert node != null;
         
-        if (v <= node.value()) {
-            // 左へ挿入
+        if (v <= node.value) {
+            // 左へ挿入。
             int diff = 0;
-            if (node.left() == null) {
-                node.setLeft(new AVLTreeNode(v));
+            if (node.left == null) {
+                // 左の子がなければ追加。このとき、左の子は追加分だけ１つ高くなる。
+                node.left = new AVLTreeNode(v);
                 diff = 1;
             } else {
-                diff = insert(node, node.left(), v);                
+                diff = insert(node, node.left, v);                
             }
+            
+            // 挿入後、バランスを取る。
             return achieveBalance(parent, node, diff, 0);
         } else {
-            // 右に挿入
+            // 右へ挿入。左の場合とやっていることは同様。
             int diff = 0;
-            if (node.right() == null) {
-                node.setRight(new AVLTreeNode(v));
+            if (node.right == null) {
+                node.right = new AVLTreeNode(v);
                 diff = 1;
             } else {
-                diff = insert(node, node.right(), v);
-            }            
+                diff = insert(node, node.right, v);
+            }
+            
             return achieveBalance(parent, node, 0, diff);
         }
     }
@@ -76,26 +85,28 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
         remove(null, root, v);
     }
     
-    // node から v を取り除く。変更された高さを返す。
+    // node から v を取り除き、変更された高さを返す。
     private int remove(AVLTreeNode parent, AVLTreeNode node, int v) {
         if (node == null)
             return 0;
         
-        if (v < node.value()) { // 左から取り除く場合
-            int diff = remove(node, node.left(), v);
+        if (v < node.value) { // 左から取り除く場合
+            // 左からデータを取り除き、バランスを取る。
+            int diff = remove(node, node.left, v);
             return achieveBalance(parent, node, diff, 0);
-        } else if (node.value() < v) {
-            int diff = remove(node, node.right(), v);
+        } else if (node.value < v) {
+            // 右の場合も左と同様。
+            int diff = remove(node, node.right, v);
             return achieveBalance(parent, node, 0, diff);
         } else {
-            assert v == node.value();
+            assert v == node.value;
             --size;
 
-            if (node.left() != null) {
-                int diff = findMaxAndRemove(node, node.left(), node);
+            if (node.left != null) {
+                int diff = findMaxAndRemove(node, node.left, node);
                 return achieveBalance(parent, node, diff, 0);
-            } else if (node.right() != null) {
-                int diff = findMinAndRemove(node, node.right(), node);
+            } else if (node.right != null) {
+                int diff = findMinAndRemove(node, node.right, node);
                 return achieveBalance(parent, node, 0, diff);
             } else {                
                 replace(parent, node, null);
@@ -108,14 +119,14 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
     private int findMaxAndRemove(AVLTreeNode parent, AVLTreeNode node, AVLTreeNode nodeReplace) {
         assert parent != null;
         
-        if (node.right() != null) {
-            int diff = findMaxAndRemove(node, node.right(), nodeReplace);
+        if (node.right != null) {
+            int diff = findMaxAndRemove(node, node.right, nodeReplace);
             return achieveBalance(parent, node, 0, diff);            
         } else {
             if (nodeReplace != null)
-                nodeReplace.setValue(node.value());
+                nodeReplace.value = node.value;
             
-            replace(parent, node, node.left());         
+            replace(parent, node, node.left);         
             return -1;
         }
     }
@@ -124,14 +135,14 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
     private int findMinAndRemove(AVLTreeNode parent, AVLTreeNode node, AVLTreeNode nodeReplace) {
         assert parent != null;
 
-        if (node.left() != null) {
-            int diff = findMinAndRemove(node, node.left(), nodeReplace);
+        if (node.left != null) {
+            int diff = findMinAndRemove(node, node.left, nodeReplace);
             return achieveBalance(parent, node, diff, 0);
         } else {           
             if (nodeReplace != null)
-                nodeReplace.setValue(node.value());
+                nodeReplace.value = node.value;
             
-            replace(parent, node, node.right());
+            replace(parent, node, node.right);
             return -1;
         }
     }
@@ -154,18 +165,18 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
         
         node.addBalance(-leftHeightDiff + rightHeightDiff);        
         if (node.balance() == -2) {
-            if (node.left().balance() != 0)
+            if (node.left.balance() != 0)
                 --heightDiff;
             
-            if (node.left().balance() == 1)
-                replace(node, node.left(), rotateLeft(node.left()));            
+            if (node.left.balance() == 1)
+                replace(node, node.left, rotateLeft(node.left));            
             replace(parent, node, rotateRight(node));
         } else if (node.balance() == 2) {
-            if (node.right().balance() != 0)
+            if (node.right.balance() != 0)
                 --heightDiff;
             
-            if (node.right().balance() == -1)
-                replace(node, node.right(), rotateRight(node.right()));
+            if (node.right.balance() == -1)
+                replace(node, node.right, rotateRight(node.right));
             replace(parent, node, rotateLeft(node));
         }
         
@@ -184,10 +195,10 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
         if (node.balance() < -1 || 1 < node.balance())
             return -1;
         
-        int leftHeight = checkHeight(node.left());
+        int leftHeight = checkHeight(node.left);
         if (leftHeight < 0)
             return -1;
-        int rightHeight = checkHeight(node.right());
+        int rightHeight = checkHeight(node.right);
         if (rightHeight < 0)
             return -1;
 
@@ -200,14 +211,14 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
     // ----------------------------------------------------------------------
 
     private static AVLTreeNode rotateLeft(AVLTreeNode B) {
-        AVLTreeNode D = B.right();
+        AVLTreeNode D = B.right;
 
         int heightC = 0;
         int heightE = heightC + D.balance();
         int heightA = (Math.max(heightC, heightE) + 1) - B.balance();
 
-        B.setRight(D.left());
-        D.setLeft(B);
+        B.right = D.left;
+        D.left = B;
 
         B.setBalance(heightC - heightA);
         D.setBalance(heightE - (Math.max(heightA, heightC) + 1));
@@ -219,14 +230,14 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
     }
     
     private static AVLTreeNode rotateRight(AVLTreeNode D) {
-        AVLTreeNode B = D.left();
+        AVLTreeNode B = D.left;
         
         int heightC = 0;
         int heightA = heightC - B.balance();
         int heightE = (Math.max(heightA, heightC) + 1) + D.balance();
         
-        D.setLeft(B.right());
-        B.setRight(D);
+        D.left = B.right;
+        B.right = D;
         
         D.setBalance(heightE - heightC);
         B.setBalance((Math.max(heightC, heightE) + 1) - heightA);

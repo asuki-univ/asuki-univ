@@ -12,9 +12,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public abstract class AbstractBinaryTreeTest {
-    private AbstractBinaryTree tree;
+    private AbstractBinaryTree<?> tree;
     
-    protected AbstractBinaryTreeTest(AbstractBinaryTree tree) {
+    protected AbstractBinaryTreeTest(AbstractBinaryTree<?> tree) {
         this.tree = tree;
     }
     
