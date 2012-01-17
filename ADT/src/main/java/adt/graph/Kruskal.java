@@ -25,10 +25,10 @@ public class Kruskal implements MSTFinder {
         
         ArrayList<Edge> result = new ArrayList<Edge>();
         for (Edge edge : edges) {
-            if (uf.isSame(edge.s, edge.e))
+            if (uf.isSame(edge.start, edge.end))
                 continue;
             
-            uf.unify(edge.s, edge.e);
+            uf.unify(edge.start, edge.end);
             result.add(edge);
         }
         

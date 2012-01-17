@@ -26,7 +26,7 @@ public class DepthFirstSearchRecursion implements DepthFirstSearch {
         List<Edge> edges = g.edges(v);
         for (int i = 0; i < edges.size(); ++i) {
             Edge edge = edges.get(i);
-            iter(g, edge.e, visited);
+            iter(g, edge.end, visited);
         }
     }    
 }

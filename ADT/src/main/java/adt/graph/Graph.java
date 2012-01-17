@@ -39,7 +39,7 @@ public class Graph {
     }
     
     public void addEdge(Edge e) {
-        es[e.s.id].add(e);
+        es[e.start.id].add(e);
     }
     
 }

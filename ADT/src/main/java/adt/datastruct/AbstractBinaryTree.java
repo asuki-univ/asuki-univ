@@ -6,6 +6,7 @@ public abstract class AbstractBinaryTree<T extends TreeNode<T>> {
     protected T root = null;
     protected int size = 0;
     
+    public abstract T createNode(T parent, int v);
     public abstract void insert(int v);
     public abstract void remove(int v);
     public abstract boolean check();
@@ -18,7 +19,7 @@ public abstract class AbstractBinaryTree<T extends TreeNode<T>> {
     public int size() {
         return size;
     }
-
+    
     public int[] values() {
         ArrayList<Integer> vs = new ArrayList<Integer>();
         
@@ -65,8 +66,10 @@ public abstract class AbstractBinaryTree<T extends TreeNode<T>> {
         
         if (parent.left == oldNode)
             parent.left = newNode;
-        else
+        else if (parent.right == oldNode)
             parent.right = newNode;
+        else
+            throw new RuntimeException();
     }
     
     protected void printTree() {

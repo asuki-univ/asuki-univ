@@ -6,7 +6,7 @@ import java.util.Map;
 public class Floyd implements ShortestPathFinder {
 
     @Override
-    public Result find(Graph g, Vertex s) {
+    public Map<Vertex, Double> find(Graph g, Vertex s) {
         int size = g.size();
         Vertex[] vs = g.vertices();
         
@@ -20,11 +20,9 @@ public class Floyd implements ShortestPathFinder {
 
         for (Vertex v : vs) {
             for (Edge e : g.edges(v)) {
-                cs[e.s.id][e.e.id] = e.weight();
+                cs[e.start.id][e.end.id] = e.weight;
             }
         }
-        
-        // TODO: なぜこれで最短距離を求めることが出来るのかの説明が必要。
         
         for (int k = 0; k < size; ++k) {
             for (int i = 0; i < size; ++i) {
@@ -34,12 +32,12 @@ public class Floyd implements ShortestPathFinder {
             }
         }
         
-        Map<Vertex, Integer> p = new HashMap<Vertex, Integer>();
+        Map<Vertex, Double> p = new HashMap<Vertex, Double>();
         for (int i = 0; i < size; ++i) {
-            p.put(vs[i], (int) cs[s.id][i]);
+            p.put(vs[i], cs[s.id][i]);
         }
         
-        return new Result(p, false);
+        return p;
     }
     
     @Override

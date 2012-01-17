@@ -24,7 +24,7 @@ class RedBlackTreeNode extends TreeNode<RedBlackTreeNode> {
         this.red = false;
         this.leaf = true;
     }
-    
+       
     public RedBlackTreeNode parent() {
         return parent;
     }
@@ -100,10 +100,15 @@ class RedBlackTreeNodeLeaf extends RedBlackTreeNode {
 public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
 
     @Override
+    public RedBlackTreeNode createNode(RedBlackTreeNode parent, int v) {
+        return new RedBlackTreeNode(parent, v);
+    }
+    
+    @Override
     public void insert(int v) {
         ++size;
         
-        if (root == null) {
+        if (root == null || root.isLeaf()) {
             root = new RedBlackTreeNode(null, v);
             root.setBlack();
             return;
@@ -269,7 +274,7 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
         }
 
         if (sibling.isBlack()) {
-            if (node == node.parent().left && sibling.right.isBlack() && sibling.left.isRed()) { /* this last test is trivial too due to cases 2-4. */
+            if (node == node.parent().left && sibling.right.isBlack() && sibling.left.isRed()) {
                 sibling.setRed();
                 sibling.left.setBlack();
                 rotateRight(sibling);
@@ -278,7 +283,6 @@ public class RedBlackTree extends AbstractBinaryTree<RedBlackTreeNode> {
                 sibling.right.setBlack();
                 rotateLeft(sibling);
             }
-            
         }
         
         sibling = node.sibling();

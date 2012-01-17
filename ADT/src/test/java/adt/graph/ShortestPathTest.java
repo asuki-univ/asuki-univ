@@ -1,12 +1,9 @@
 package adt.graph;
 
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import adt.graph.Edge;
-import adt.graph.Graph;
-import adt.graph.Result;
-import adt.graph.ShortestPathFinder;
 
 public abstract class ShortestPathTest {
     protected ShortestPathFinder spf;
@@ -19,9 +16,9 @@ public abstract class ShortestPathTest {
     public void testSingle() {
         Graph g = new Graph(1);
         
-        Result r = spf.find(g, g.vertex(0));
+        Map<Vertex, Double> r = spf.find(g, g.vertex(0));
         
-        Assert.assertEquals(0, r.get(g.vertex(0)));
+        Assert.assertEquals(Double.valueOf(0), r.get(g.vertex(0)));
     }
     
     @Test
@@ -30,10 +27,10 @@ public abstract class ShortestPathTest {
         
         g.addEdge(new Edge(g.vertex(0), g.vertex(1), 1));
 
-        Result r = spf.find(g, g.vertex(0));
+        Map<Vertex, Double> r = spf.find(g, g.vertex(0));
 
-        Assert.assertEquals(0, r.get(g.vertex(0)));
-        Assert.assertEquals(1, r.get(g.vertex(1)));        
+        Assert.assertEquals(Double.valueOf(0), r.get(g.vertex(0)));
+        Assert.assertEquals(Double.valueOf(1), r.get(g.vertex(1)));        
     }
     
     @Test
@@ -45,12 +42,12 @@ public abstract class ShortestPathTest {
         g.addEdge(new Edge(g.vertex(2), g.vertex(3), 1));
         g.addEdge(new Edge(g.vertex(0), g.vertex(3), 1));
 
-        Result r = spf.find(g, g.vertex(0));
+        Map<Vertex, Double> r = spf.find(g, g.vertex(0));
 
-        Assert.assertEquals(0, r.get(g.vertex(0)));
-        Assert.assertEquals(1, r.get(g.vertex(1)));
-        Assert.assertEquals(2, r.get(g.vertex(2)));
-        Assert.assertEquals(1, r.get(g.vertex(3)));
+        Assert.assertEquals(Double.valueOf(0), r.get(g.vertex(0)));
+        Assert.assertEquals(Double.valueOf(1), r.get(g.vertex(1)));
+        Assert.assertEquals(Double.valueOf(2), r.get(g.vertex(2)));
+        Assert.assertEquals(Double.valueOf(1), r.get(g.vertex(3)));
     }
 
     @Test
@@ -62,12 +59,12 @@ public abstract class ShortestPathTest {
         g.addEdge(new Edge(g.vertex(2), g.vertex(3), 1));
         g.addEdge(new Edge(g.vertex(0), g.vertex(3), 5));
 
-        Result r = spf.find(g, g.vertex(0));
+        Map<Vertex, Double> r = spf.find(g, g.vertex(0));
 
-        Assert.assertEquals(0, r.get(g.vertex(0)));
-        Assert.assertEquals(1, r.get(g.vertex(1)));
-        Assert.assertEquals(2, r.get(g.vertex(2)));
-        Assert.assertEquals(3, r.get(g.vertex(3)));
+        Assert.assertEquals(Double.valueOf(0), r.get(g.vertex(0)));
+        Assert.assertEquals(Double.valueOf(1), r.get(g.vertex(1)));
+        Assert.assertEquals(Double.valueOf(2), r.get(g.vertex(2)));
+        Assert.assertEquals(Double.valueOf(3), r.get(g.vertex(3)));
     }
 
     @Test
@@ -81,13 +78,13 @@ public abstract class ShortestPathTest {
         g.addEdge(new Edge(g.vertex(2), g.vertex(3), -1));
         g.addEdge(new Edge(g.vertex(3), g.vertex(4),  1));
 
-        Result r = spf.find(g, g.vertex(0));
+        Map<Vertex, Double> r = spf.find(g, g.vertex(0));
 
-        Assert.assertEquals(0, r.get(g.vertex(0)));
-        Assert.assertEquals(1, r.get(g.vertex(1)));
-        Assert.assertEquals(2, r.get(g.vertex(2)));
-        Assert.assertEquals(1, r.get(g.vertex(3)));
-        Assert.assertEquals(2, r.get(g.vertex(4)));
+        Assert.assertEquals(Double.valueOf(0), r.get(g.vertex(0)));
+        Assert.assertEquals(Double.valueOf(1), r.get(g.vertex(1)));
+        Assert.assertEquals(Double.valueOf(2), r.get(g.vertex(2)));
+        Assert.assertEquals(Double.valueOf(1), r.get(g.vertex(3)));
+        Assert.assertEquals(Double.valueOf(2), r.get(g.vertex(4)));
     }
 
     @Test
@@ -102,14 +99,12 @@ public abstract class ShortestPathTest {
         g.addEdge(new Edge(g.vertex(2), g.vertex(3),  1));
         g.addEdge(new Edge(g.vertex(3), g.vertex(4),  1));
 
-        Result r = spf.find(g, g.vertex(0));
-        Assert.assertTrue(r.isNegativeLoopDetected());
-        
-        Assert.assertTrue(r.get(g.vertex(0)) < 0);
-        Assert.assertTrue(r.get(g.vertex(1)) < 0);
-        Assert.assertTrue(r.get(g.vertex(2)) < 0);
-        Assert.assertTrue(r.get(g.vertex(3)) < 0);
-        Assert.assertTrue(r.get(g.vertex(4)) < 0);
+        try {
+            spf.find(g, g.vertex(0));
+            Assert.fail();
+        } catch (NegativeLoopDetected e) {
+            // OK.
+        }
     }
 
 }

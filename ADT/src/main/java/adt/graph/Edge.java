@@ -1,30 +1,18 @@
 package adt.graph;
 
 public class Edge implements Comparable<Edge> {
-    public Vertex s;
-    public Vertex e;
-    private int w;
+    public Vertex start;
+    public Vertex end;
+    public double weight;
     
     public Edge(Vertex s, Vertex e) {
         this(s, e, 1);
     }
     
-    public Edge(Vertex s, Vertex e, int w) {
-        this.s = s;
-        this.e = e;
-        this.w = w;
-    }
-    
-    public Vertex start() {
-        return s;
-    }
-    
-    public Vertex end() {
-        return e;
-    }
-    
-    public int weight() {
-        return w;
+    public Edge(Vertex s, Vertex e, double w) {
+        this.start = s;
+        this.end = e;
+        this.weight = w;
     }
     
     @Override
@@ -32,14 +20,15 @@ public class Edge implements Comparable<Edge> {
         Edge lhs = this;
         Edge rhs = o;
         
-        if (lhs.w != rhs.w) { return lhs.w < rhs.w ? -1 : 1; }
+        if (lhs.weight != rhs.weight)
+            return lhs.weight < rhs.weight ? -1 : 1;
 
         return 0;
     }
     
     @Override
     public String toString() {
-        return String.format("e(%s->%s;%f)", s.toString(), e.toString(), w); 
+        return String.format("e(%s->%s;%f)", start.toString(), end.toString(), weight); 
     }
 }
 

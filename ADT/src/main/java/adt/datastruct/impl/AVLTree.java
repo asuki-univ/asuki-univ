@@ -36,6 +36,11 @@ public class AVLTree extends AbstractBinaryTree<AVLTreeNode> {
     }
 
     @Override
+    public AVLTreeNode createNode(AVLTreeNode parent, int v) {
+        return new AVLTreeNode(v);
+    }
+
+    @Override
     public void insert(int v) {
         ++size;
         

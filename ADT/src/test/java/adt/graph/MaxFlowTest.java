@@ -10,12 +10,12 @@ public class MaxFlowTest {
         Graph g = new Graph(2);
         g.addEdge(new Edge(g.vertex(0), g.vertex(1), 2));
         
-        int[][] flow = new MaxFlow().findMaxFlow(g, g.vertex(0), g.vertex(1));
+        double[][] flow = new MaxFlow().findMaxFlow(g, g.vertex(0), g.vertex(1));
         
-        Assert.assertEquals(0, flow[0][0]);
-        Assert.assertEquals(2, flow[0][1]);
-        Assert.assertEquals(0, flow[1][0]);
-        Assert.assertEquals(0, flow[1][1]);        
+        Assert.assertEquals(0, flow[0][0], 1E-9);
+        Assert.assertEquals(2, flow[0][1], 1E-9);
+        Assert.assertEquals(0, flow[1][0], 1E-9);
+        Assert.assertEquals(0, flow[1][1], 1E-9);        
     }
 
     @Test
@@ -23,12 +23,12 @@ public class MaxFlowTest {
         Graph g = new Graph(2);
         g.addEdge(new Edge(g.vertex(0), g.vertex(1), 2));
         
-        int[][] flow = new MaxFlow().findMaxFlow(g, g.vertex(1), g.vertex(0));
+        double[][] flow = new MaxFlow().findMaxFlow(g, g.vertex(1), g.vertex(0));
         
-        Assert.assertEquals(0, flow[0][0]);
-        Assert.assertEquals(0, flow[0][1]);
-        Assert.assertEquals(0, flow[1][0]);
-        Assert.assertEquals(0, flow[1][1]);                
+        Assert.assertEquals(0, flow[0][0], 1E-9);
+        Assert.assertEquals(0, flow[0][1], 1E-9);
+        Assert.assertEquals(0, flow[1][0], 1E-9);
+        Assert.assertEquals(0, flow[1][1], 1E-9);                
     }
     
     @Test
@@ -38,11 +38,11 @@ public class MaxFlowTest {
         g.addEdge(new Edge(g.vertex(1), g.vertex(2), 1));
         g.addEdge(new Edge(g.vertex(0), g.vertex(2), 1));
         
-        int[][] flow = new MaxFlow().findMaxFlow(g, g.vertex(0), g.vertex(2));
+        double[][] flow = new MaxFlow().findMaxFlow(g, g.vertex(0), g.vertex(2));
         
-        Assert.assertEquals(1, flow[0][1]);
-        Assert.assertEquals(1, flow[1][2]);
-        Assert.assertEquals(1, flow[0][2]);
+        Assert.assertEquals(1, flow[0][1], 1E-9);
+        Assert.assertEquals(1, flow[1][2], 1E-9);
+        Assert.assertEquals(1, flow[0][2], 1E-9);
     }
     
     @Test
@@ -54,12 +54,12 @@ public class MaxFlowTest {
         g.addEdge(new Edge(g.vertex(1), g.vertex(3), 1));
         g.addEdge(new Edge(g.vertex(2), g.vertex(3), 1));
         
-        int[][] flow = new MaxFlow().findMaxFlow(g, g.vertex(0), g.vertex(3));
+        double[][] flow = new MaxFlow().findMaxFlow(g, g.vertex(0), g.vertex(3));
         
-        Assert.assertEquals(1, flow[0][1]);
-        Assert.assertEquals(1, flow[0][2]);
-        Assert.assertEquals(1, flow[1][3]);
-        Assert.assertEquals(1, flow[2][3]);
+        Assert.assertEquals(1, flow[0][1], 1E-9);
+        Assert.assertEquals(1, flow[0][2], 1E-9);
+        Assert.assertEquals(1, flow[1][3], 1E-9);
+        Assert.assertEquals(1, flow[2][3], 1E-9);
     }
     
     private void showFlow(int[][] flow) {

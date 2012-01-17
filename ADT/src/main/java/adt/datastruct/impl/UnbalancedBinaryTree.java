@@ -15,10 +15,16 @@ class UBTreeNode extends TreeNode<UBTreeNode> {
 }
 
 public class UnbalancedBinaryTree extends AbstractBinaryTree<UBTreeNode> {
+    
+    @Override
+    public UBTreeNode createNode(UBTreeNode parent, int v) {
+        return new UBTreeNode(v);
+    }
+    
     @Override
     public void insert(int v) {
         if (this.root == null) {
-            this.root = new UBTreeNode(v);
+            this.root = createNode(null, v);
             ++size;
             return;
         }
@@ -30,7 +36,7 @@ public class UnbalancedBinaryTree extends AbstractBinaryTree<UBTreeNode> {
                 if (node.left != null)
                     node = node.left;
                 else {
-                    node.left = new UBTreeNode(v);
+                    node.left = createNode(node, v);
                     ++size;
                     return;
                 }
@@ -38,7 +44,7 @@ public class UnbalancedBinaryTree extends AbstractBinaryTree<UBTreeNode> {
                 if (node.right != null)
                     node = node.right;
                 else {
-                    node.right = new UBTreeNode(v);
+                    node.right = createNode(node, v);
                     ++size;
                     return;
                 }

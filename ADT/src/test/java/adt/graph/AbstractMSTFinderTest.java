@@ -26,9 +26,9 @@ public abstract class AbstractMSTFinderTest {
         for (int i = 1; i < N; ++i) {
             boolean ok = false;
             for (Edge e : mst) {
-                if (e.s == g.vertex(0) && e.e == g.vertex(i))
+                if (e.start == g.vertex(0) && e.end == g.vertex(i))
                     ok = true;
-                else if (e.s == g.vertex(i) && e.e == g.vertex(0))
+                else if (e.start == g.vertex(i) && e.end == g.vertex(0))
                     ok = true;
             }
             Assert.assertTrue(ok);
@@ -59,7 +59,7 @@ public abstract class AbstractMSTFinderTest {
         int cost = 0; 
         List<Edge> es = finder.find(g);
         for (Edge e : es) {
-            cost += e.weight();
+            cost += e.weight;
         }
         Assert.assertEquals(5, es.size());
         Assert.assertEquals(8, cost);

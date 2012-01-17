@@ -19,13 +19,13 @@ public class Prim implements MSTFinder {
         
         while (!q.isEmpty() && result.size() < g.size()) {
             Edge edge = q.poll();
-            if (visited.contains(edge.e))
+            if (visited.contains(edge.end))
                 continue;
             
-            visited.add(edge.e);
+            visited.add(edge.end);
             result.add(edge);
-            for (Edge e : g.edges(edge.e)) {
-                if (visited.contains(e.e))
+            for (Edge e : g.edges(edge.end)) {
+                if (visited.contains(e.end))
                     continue;
                 q.add(e);
             }            
