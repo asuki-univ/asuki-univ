@@ -31,8 +31,9 @@ public class ClosedHashTable<K, V> extends AbstractHashTable<K, V> {
     }
     
     private void insertToTable(Entry<K, V>[] table, K key, V value) {
-        int index = key.hashCode() % table.length;
-        while (true) {
+    	for (int i = 0; i < table.length; ++i) {
+            int index = (i + key.hashCode()) % table.length;
+        
             if (table[index] == null || table[index].key == null) {
                 table[index] = new Entry<K, V>(key, value);
                 ++size;
@@ -43,10 +44,9 @@ public class ClosedHashTable<K, V> extends AbstractHashTable<K, V> {
                 table[index] = new Entry<K, V>(key, value);
                 return;
             }
-                        
-            index = (index + 1) % table.length;
         }
-
+    	
+    	throw new RuntimeException("No space to insert");
     }
 
     @Override
@@ -54,8 +54,8 @@ public class ClosedHashTable<K, V> extends AbstractHashTable<K, V> {
         if (key == null)
             throw new RuntimeException("Key should not be null.");
         
-        int index = key.hashCode() % table.length;
-        while (true) {
+        for (int i = 0; i < table.length; ++i) {
+        	int index = (i + key.hashCode()) % table.length;
             if (table[index] == null)
                 return null;
             
@@ -68,9 +68,9 @@ public class ClosedHashTable<K, V> extends AbstractHashTable<K, V> {
             if (table[index].key.equals(key)) {
                 return table[index].value;
             }
-                        
-            index = (index + 1) % table.length;
         }
+        
+        return null;
     }
 
     @Override
