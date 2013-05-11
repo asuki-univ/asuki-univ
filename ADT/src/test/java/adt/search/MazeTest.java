@@ -8,11 +8,11 @@ import adt.search.MazeSolver;
 
 public abstract class MazeTest {
     private MazeSolver solver;
-    
+
     protected MazeTest(MazeSolver solver) {
         this.solver = solver;
     }
-    
+
     @Test
     public void testSolve1() {
         char[][] map = toCharArray(new String[] {
@@ -28,7 +28,7 @@ public abstract class MazeTest {
                 "#........#",
                 "##########",
         });
-        
+
         String path = solver.solve(map, index(map, 'S'), index(map, 'G'));
         Assert.assertTrue(verifyPath(map, index(map, 'S'), index(map, 'G'), path));
     }
@@ -48,7 +48,7 @@ public abstract class MazeTest {
                 "#........#",
                 "#####G####",
         });
-        
+
         String path = solver.solve(map, index(map, 'S'), index(map, 'G'));
         Assert.assertTrue(verifyPath(map, index(map, 'S'), index(map, 'G'), path));
     }
@@ -69,12 +69,32 @@ public abstract class MazeTest {
                 "#........#",
                 "#####G####",
         });
-        
+
         String path = solver.solve(map, index(map, 'S'), index(map, 'G'));
         Assert.assertTrue(verifyPath(map, index(map, 'S'), index(map, 'G'), path));
     }
 
-    
+    @Test
+    public void testSolve4() {
+        char[][] map = toCharArray(new String[] {
+                "#####S####",
+                "#........#",
+                "#.###.#..#",
+                "#...#.#..#",
+                "###.#.#..#",
+                "#...#.#..#",
+                "#.###.#..#",
+                "#...#.#..#",
+                "###.###..#",
+                "G...#....#",
+                "##########",
+        });
+
+        String path = solver.solve(map, index(map, 'S'), index(map, 'G'));
+        Assert.assertTrue(verifyPath(map, index(map, 'S'), index(map, 'G'), path));
+    }
+
+
     private char[][] toCharArray(String[] s) {
         char[][] t = new char[s.length][];
         for (int i = 0; i < s.length; ++i) {
@@ -82,17 +102,17 @@ public abstract class MazeTest {
         }
         return t;
     }
-    
+
     private Index index(char[][] map, char c) {
         for (int y = 0; y < map.length; ++y) {
             for (int x = 0; x < map[y].length; ++x) {
                 if (map[y][x] == c) { return new Index(x, y); }
             }
         }
-        
+
         return null;
     }
-    
+
     private boolean verifyPath(char[][] map, Index start, Index goal, String path) {
         int x = start.x, y = start.y;
         for (int i = 0; i < path.length(); ++i) {
@@ -105,7 +125,7 @@ public abstract class MazeTest {
             }
             if (map[y][x] == '#') { return false; }
         }
-        
+
         if (x == goal.x && y == goal.y) { return true; }
         return false;
     }
