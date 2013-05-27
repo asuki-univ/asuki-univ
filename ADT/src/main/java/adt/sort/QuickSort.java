@@ -8,13 +8,18 @@ public class QuickSort implements Sorter {
     }
     
     private void sortInner(int[] x, int left, int right) {
+        // 配列の長さが１以下であればソートの必要はない
         int len = right - left;
         if (len <= 1) { return; }
         
+        // ピボットを選択。選択できなければ -1 を返す。
         int pivotIdx = findPivotIdx(x, left, right);
         if (pivotIdx < 0) { return; }
+
+        // ピボットで分割
         int mid = partition(x, left, right, x[pivotIdx]);
         
+        // 分割した配列を再びソート
         if (mid - left >= 2) {
             sortInner(x, left, mid);
         }
